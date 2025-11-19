@@ -2,23 +2,22 @@ package Main;
 
 import java.sql.*;
 import java.util.Scanner;
+import Core_Records.Operations.*;
 
 public class mainMenu {
+  private String url = "jdbc:mysql://localhost:3306/roblox_db?serverTimezone=UTC";
+  private String username = "root";
+  private String password = "";
+  private Scanner scan = new Scanner(System.in);
 
-  mainMenu(){}
+  public mainMenu(){}
 
-  public void main(String[] args) {
-    String url = "jdbc:mysql://localhost:3306/roblox_db?serverTimezone=UTC";
-    String username = "root";
-    String password = "SpiderMan-2904)";
-    Scanner scan = new Scanner(System.in);
-    int choice = 0;
+  public void main() {
     displayTitle();
     try {
       Class.forName("com.mysql.cj.jdbc.Driver");
-      //connect();
-      choice = getChoice(scan);
-      callChoice(choice, scan);
+      connect();
+      getChoice(scan);
       /*Connection connection = DriverManager.getConnection(url, username, password);
       Statement statement = connection.createStatement();
       ResultSet resultSet = statement.executeQuery("select * from PLAYER");
@@ -58,7 +57,7 @@ public class mainMenu {
     System.out.println("[1] Player Record\n[2] Game Record\n[3] Item Record\n[4] Rate Record\n[5] Transactions\n[6] Reports\n[7] Exit");
   }
 
-  private int getChoice(Scanner scan){
+  public void getChoice(Scanner scan){
     int choice = 0;
     while(true){
       displayMenu();
@@ -75,18 +74,22 @@ public class mainMenu {
           scan.next(); // consume the invalid input
       }
     }
-    return choice;
+    callChoice(choice);
   }
 
-  private void callChoice(int choice, Scanner scan){
+  private void callChoice(int choice){
     switch (choice) {
       case 1:
-        // player record
-        getChoice(scan);
+        playerRecord();
         break;
       case 2:
-        //game record
-        getChoice(scan);
+        gameRecord();
+        break;
+      case 3:
+        itemRecord();
+        break;
+      case 4:
+        rateRecord();
         break;
       default:
         System.out.println("Exiting the program, goodbye.");
@@ -94,5 +97,22 @@ public class mainMenu {
     }
   }
 
+  
+  private void playerRecord(){
+    PlayerUI player = new PlayerUI(url, username, password);
+    player.menu();
+  }
 
+  private void itemRecord(){
+    ItemUI Item = new ItemUI(url, username, password);
+    Item.menu();
+  }
+  private void gameRecord() {
+    GameUI game = new GameUI(url, username, password);
+    game.menu();
+  }
+
+  private void rateRecord(){
+    RateRecord.rateMenu(scan);
+  }
 }

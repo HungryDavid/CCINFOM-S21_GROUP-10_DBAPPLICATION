@@ -10,6 +10,8 @@ public class Item {
   private int availability;     // if 1 then available else if 0 then unavailable
   private Integer ownerGameID;  // can be null
 
+  public Item(){}
+  
   public Item(String itemName, ItemType itemType, double price, int availability, Integer ownerGameID) {
     this.itemName = itemName;
     this.itemType = itemType;
